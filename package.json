@@ -2,6 +2,17 @@
   "name": "tp3",
   "version": "1.0.0",
   "description": "grupo0",
+  "homepage": "https://github.com/cppDevCode/tp4-grupo6#readme",
+  "bugs": {
+    "url": "https://github.com/cppDevCode/tp4-grupo6/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cppDevCode/tp4-grupo6.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,15 +21,13 @@
     "fix": "npx standard --fix",
     "prepare": "husky"
   },
-  "author": "",
-  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
   "devDependencies": {
-    "eslint": "^10.3.0",
+    "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "nodemon": "^3.1.14",
