@@ -1,5 +1,7 @@
-const validarAlumno = (req, res, next) => {
-  const { nombre, apellido, mail, isActive } = req.body
+import {Request, Response, NextFunction} from 'express'
+
+export const validarAlumno = (req: Request, res: Response, next: NextFunction) => {
+  const { nombre, apellido, email, isActive } = req.body
 
   const error = []
   if (nombre === '' || nombre === undefined || typeof nombre !== 'string') {
@@ -8,7 +10,7 @@ const validarAlumno = (req, res, next) => {
   if (apellido === '' || apellido === undefined || typeof apellido !== 'string') {
     error.push('Ingrese un apellido valido')
   }
-  if (mail === '' || mail === undefined || typeof mail !== 'string') {
+  if (email === '' || email === undefined || typeof email !== 'string') {
     error.push('Ingrese un mail valido')
   }
   if (isActive === undefined || typeof isActive !== 'boolean') {
@@ -21,5 +23,3 @@ const validarAlumno = (req, res, next) => {
 
   next()
 }
-
-module.exports = { validarAlumno }
