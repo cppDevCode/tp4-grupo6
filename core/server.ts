@@ -18,8 +18,7 @@ class Server {
 
   private middleware(): void {
     this.app.use(cors())
-    // Si usas JSON, puedes agregar:
-    // this.app.use(express.json());
+    this.app.use(express.json()); //leo y modifico JSONs
   }
 
   private rutas(): void {
