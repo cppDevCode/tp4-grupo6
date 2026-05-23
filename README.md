@@ -35,12 +35,28 @@ Link:
 
 #### Alejandro Lucas Baldres
 
-**GET /alumnos**  
+
 _Backend_
+
+**GET /alumnos**  
 
 Adaptar el endpoint ya existente en el repo base al patrón MVC del grupo
 Leer data/alumnos.json y devolver el array completo
 Respuestas HTTP: 200, 500
+
+**/notas**
+Crear controlador  y los routes necesarios para contener los metodos mencionados a continuacion.
+
+**GET /notas**
+Crear endpoint para obtener todas las notas  
+Respuestas HTTP: 200, 500
+
+**GET /notas/legajo**
+Obtener la nota a partir del numero de legajo de un alumno  
+Respuestas HTTP: 200, 404, 500
+
+_Middleware_
+Crear MiddleWare para endpoint notas
 
 _TypeScript_
 
@@ -191,6 +207,80 @@ C. Documentación (Docs) Si la tarea consiste en generar o modificar documentaci
 ## Documentación Técnica
 
 ## Modelos
+
+### nota.model
+
+1. Constructor  
+   Crea una instancia de NotaModel  
+   Detalle de parametros:
+   - id: id de la nota
+   - idMateria: Id de la materia a la que pertenece la nota
+   - nota: Nota numerica del 0 al 10
+   - fecha: Fecha de la nota
+   - legajo: Legajo del alumno
+
+2. getId  
+   Metodo que retorna un number con el id de la nota
+
+```ts
+1
+```
+
+3. getIdMateria  
+   Metodo que retorna un String con el id de la materia
+
+```ts
+ANALISIS1
+```
+
+4. getNota  
+   Metodo que retorna un number con  la nota
+
+```ts
+7
+```
+
+5. getFecha  
+   Metodo que retorna un Date con la fecha de la nota
+
+```ts
+'10-04-26'
+```
+
+6. getLegajo  
+   Metodo que retorna un number con el legajo del alumno al cual pertenece la nota
+
+```ts
+10002
+```
+
+7. setLegajo(legajoNuevo)
+   Metodo que asigna un legajo al atributo correspondiente del objeto
+
+8. setId(id)
+   Metodo que asigna un ID al atributo correspondiente del objeto
+
+9. setIdMateria(idMateria)
+   Metodo que asigna un ID de la materia al atributo correspondiente del objeto
+
+10. setNota(nota)
+   Metodo que asigna una nota al atributo correspondiente del objeto
+
+11. setFecha(fecha)
+   Metodo que asigna una fecha al atributo correspondiente del objeto
+
+12. getAll  
+   Metodo que retorna el objeto del tipo NotaModel
+
+```json
+{
+    "id": 102,
+    "idMateria": "PGRS10",
+    "nota": 7,
+    "legajo": 10003,
+    "fecha": "10-04-26"
+}
+```   
 
 ### persona.model
 
@@ -347,7 +437,7 @@ true;
 
 1. getAlumnos
    Obtiene todos los alumnos desde el archivo JSON y envía la respuesta HTTP.
-   Retorna: Envía una respuesta JSON con el array de servicios o un error
+   Retorna: Envía una respuesta JSON con el array de alumnos o un error
 
 ```json
 [
@@ -392,6 +482,66 @@ En caso de que el alumno exista, se requiere un body en JSON con los atributos o
 ```
 
 El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el metodo PATCH se encarga de manejar las actualizaciones parciales.
+
+### nota.controller
+
+1. getNotas
+   Obtiene todos las notas desde el archivo JSON y envía la respuesta HTTP.
+   Retorna: Envía una respuesta JSON con el array de notas o un error
+
+```json
+[
+    {
+        "id": 1,
+        "legajo": 10001,
+        "idMateria": "MAT101",
+        "nota": 9,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 2,
+        "legajo": 10001,
+        "idMateria": "PROG1",
+        "nota": 8,
+        "fecha": "01-07-24"
+    }
+]
+```
+2. getNotasXLegajo
+   Obtiene todos las notas de acuerdo a un numero de legajo y envía la respuesta HTTP.
+   Retorna: Envía una respuesta JSON con el array de notas o un error
+
+```json
+[
+    {
+        "id": 1,
+        "legajo": 10001,
+        "idMateria": "MAT101",
+        "nota": 9,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 2,
+        "legajo": 10001,
+        "idMateria": "PROG1",
+        "nota": 8,
+        "fecha": "01-07-24"
+    }
+]
+```
+
+2. postNota
+   Concatena en el archivo JSON el body enviado en el Request calculando el id y envía la respuesta HTTP.
+   Retorna: Envía una respuesta JSON con el array de notas o un error
+
+```json
+    {        
+        "legajo": 10001,
+        "idMateria": "MAT101",
+        "nota": 9,
+        "fecha": "03-04-24"
+    }
+```
 
 ## Postman
 ### Endpoint /alumnos
@@ -640,3 +790,293 @@ Salida Exitosa (200):
 Salida Erronea (500):
 ![Postman Get All Server Error](./data/assets/alumno.getall.500.png)
 
+
+### Endpoint /notas
+
+#### Obtener todas las notas
+
+```bash
+curl --location 'http://127.0.0.1:3000/notas'
+```
+
+Salida Exitosa (200):
+```json
+[
+    {
+        "id": 1,
+        "legajo": 10001,
+        "idMateria": "MAT101",
+        "nota": 9,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 2,
+        "legajo": 10001,
+        "idMateria": "PROG1",
+        "nota": 8,
+        "fecha": "01-07-24"
+    },
+    {
+        "id": 3,
+        "legajo": 10002,
+        "idMateria": "MAT101",
+        "nota": 10,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 4,
+        "legajo": 10002,
+        "idMateria": "PROG1",
+        "nota": 8,
+        "fecha": "01-07-24"
+    },
+    {
+        "id": 5,
+        "legajo": 10003,
+        "idMateria": "MAT101",
+        "nota": 4,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 6,
+        "legajo": 10004,
+        "idMateria": "SIST1",
+        "nota": 7,
+        "fecha": "15-06-24"
+    },
+    {
+        "id": 7,
+        "legajo": 10005,
+        "idMateria": "LABO1",
+        "nota": 8,
+        "fecha": "20-06-24"
+    },
+    {
+        "id": 8,
+        "legajo": 10006,
+        "idMateria": "MAT101",
+        "nota": 6,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 9,
+        "legajo": 10007,
+        "idMateria": "ING1",
+        "nota": 5,
+        "fecha": "10-07-24"
+    },
+    {
+        "id": 10,
+        "legajo": 10008,
+        "idMateria": "PROG1",
+        "nota": 9,
+        "fecha": "01-07-24"
+    },
+    {
+        "id": 11,
+        "legajo": 10009,
+        "idMateria": "SIST1",
+        "nota": 8,
+        "fecha": "15-06-24"
+    },
+    {
+        "id": 12,
+        "legajo": 10010,
+        "idMateria": "MAT101",
+        "nota": 7,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 13,
+        "legajo": 10011,
+        "idMateria": "LABO1",
+        "nota": 2,
+        "fecha": "20-06-24"
+    },
+    {
+        "id": 14,
+        "legajo": 10012,
+        "idMateria": "ING1",
+        "nota": 9,
+        "fecha": "10-07-24"
+    },
+    {
+        "id": 15,
+        "legajo": 10013,
+        "idMateria": "PROG1",
+        "nota": 7,
+        "fecha": "01-07-24"
+    },
+    {
+        "id": 16,
+        "legajo": 10014,
+        "idMateria": "SIST1",
+        "nota": 6,
+        "fecha": "15-06-24"
+    },
+    {
+        "id": 17,
+        "legajo": 10015,
+        "idMateria": "MAT101",
+        "nota": 3,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 18,
+        "legajo": 10016,
+        "idMateria": "LABO1",
+        "nota": 10,
+        "fecha": "20-06-24"
+    },
+    {
+        "id": 19,
+        "legajo": 10017,
+        "idMateria": "ING1",
+        "nota": 8,
+        "fecha": "10-07-24"
+    },
+    {
+        "id": 20,
+        "legajo": 10018,
+        "idMateria": "PROG1",
+        "nota": 7,
+        "fecha": "01-07-24"
+    },
+    {
+        "id": 21,
+        "legajo": 10019,
+        "idMateria": "SIST1",
+        "nota": 9,
+        "fecha": "15-06-24"
+    },
+    {
+        "id": 22,
+        "legajo": 10020,
+        "idMateria": "MAT101",
+        "nota": 5,
+        "fecha": "03-04-24"
+    },
+    {
+        "id": 23,
+        "legajo": 10021,
+        "idMateria": "LABO1",
+        "nota": 8,
+        "fecha": "20-06-24"
+    },
+    {
+        "id": 24,
+        "legajo": 10022,
+        "idMateria": "ING1",
+        "nota": 8,
+        "fecha": "10-07-24"
+    },
+    {
+        "id": 25,
+        "legajo": 10023,
+        "idMateria": "PROG1",
+        "nota": 10,
+        "fecha": "01-07-24"
+    }
+]
+```
+Salida Erronea (500):
+```json
+{
+    "error": "No se puedieron obtener los datos de las Notas"
+}
+```
+
+#### Screenshoot
+![Get All Ok](./data/assets/notas.getall.png)
+![Get All Error](./data/assets/notas.getall.500.png)
+
+#### Obtener notas por legajo
+
+```bash
+curl --location 'http://127.0.0.1:3000/notas/10002'
+```
+
+Salida Exitosa (200):
+```json
+[
+    {
+        "id": 3,
+        "nota": 10,
+        "fecha": "03-04-24",
+        "legajo": 10002
+    },
+    {
+        "id": 4,
+        "nota": 8,
+        "fecha": "01-07-24",
+        "legajo": 10002
+    }
+]
+```
+
+Salida Erronea (404/500):
+{
+    "error": "Legajo No encontrado"
+}
+
+#### Screenshoot
+![Get X Legajo 200](./data/assets/notas.getXLeg.png)
+![Get X Legajo 404](./data/assets/notas.getXLeg.404.png)
+![Get X Legajo 500](./data/assets/notas.getXLeg.500.png)
+
+
+#### Post Nota
+
+```bash
+curl --location 'http://127.0.0.1:3000/notas/' \
+--header 'Content-Type: application/json' \
+--data '{
+    "legajo": 1003,
+    "idMateria": "PROG1",
+    "nota": 10,
+    "fecha": "03-04-26"
+}'
+```
+
+Salida Exitosa (200):
+```json
+[
+        ...
+        ...
+
+    {
+        "id": 25,
+        "nota": 10,
+        "fecha": "01-07-24",
+        "legajo": 10023
+    },
+    {
+        "id": 26,
+        "nota": 10,
+        "fecha": "03-04-26",
+        "legajo": 1002
+    },
+    {
+        "id": 27,
+        "idMateria": "PROG1",
+        "nota": 10,
+        "fecha": "03-04-26",
+        "legajo": 1003
+    }
+]
+```
+
+Salida Erronea (400):
+```json
+{
+    "msg": "Datos Invalidos",
+    "errores": [
+        "nota debe ser un número entre 0 y 10"
+    ]
+}
+```
+
+#### Screenshoot
+![201](./data/assets/notas.post.png)
+![400](./data/assets/notas.post.400.png)
+![500](./data/assets/nota.post.500.png)
