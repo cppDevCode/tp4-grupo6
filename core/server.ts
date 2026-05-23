@@ -1,17 +1,19 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
+import { NumerosMagicos } from '../util/numerosMagicos'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import alumnoRoutes from '../routes/alumno.routes'
 
 dotenv.config()
 
-class Server {
+class Server extends NumerosMagicos{
   private app: Application
-  private port: string | number
+  private port: string | number  
 
   constructor() {
+    super()
     this.app = express()
-    this.port = process.env.PORT || 3000
+    this.port = process.env.PORT || this.PUERTO_DEFECTO
     this.middleware()
     this.rutas()
   }
@@ -31,18 +33,18 @@ class Server {
 
     // manejo de errores
     this.app.use((req: Request, res: Response, next: NextFunction) => {
-      return res.status(400).json({ msg: 'Error.' })
+      return res.status(this.HTTP_BAD_REQUEST).json({ msg: 'Error.' })
     })
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         console.error(err.stack)
-        return res.status(404).json({ msg: 'Error. Pagina no encontrada' })
+        return res.status(this.HTTP_NOT_FOUND).json({ msg: 'Error. Pagina no encontrada' })
       }
     )
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         console.error(err.stack)
-        return res.status(500).json({ msg: 'Internal Server Error' })
+        return res.status(this.HTTP_SERVER_ERROR).json({ msg: 'Internal Server Error' })
       }
     )
   }
