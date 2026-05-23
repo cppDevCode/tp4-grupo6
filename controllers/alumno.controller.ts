@@ -1,12 +1,10 @@
 import { AlumnoModel } from '../models/alumno.model'
+import { NumerosMagicos } from '../util/numerosMagicos'
 import { Request, Response } from 'express'
 import fs from 'fs/promises'
 
-export class AlumnoController {
-  private readonly HTTP_OK: number = 200
-  private readonly HTTP_CREATED: number = 201
-  private readonly HTTP_NOT_FOUND: number = 404
-  private readonly HTTP_SERVER_ERROR: number = 500
+export class AlumnoController extends NumerosMagicos{
+  
 
   public getAlumnos = async (req: Request, res: Response): Promise<Response> => {
     let codigo: number
@@ -34,7 +32,7 @@ export class AlumnoController {
       const alumnos: any[] = JSON.parse(data)
       const alumnoIndex = alumnos.findIndex((alumno) => alumno.legajo === Number(legajo)) //tipo numero, por el indice devolvido
       if (alumnoIndex === -1) {
-        return res.status(404).json({ msg: `Alumno (Legajo: ${legajo})  no encontrado` })
+        return res.status(this.HTTP_NOT_FOUND).json({ msg: `Alumno (Legajo: ${legajo})  no encontrado` })
       }
 
       const alumnoEncontrado = alumnos[alumnoIndex]
@@ -67,9 +65,9 @@ export class AlumnoController {
       alumnos[alumnoIndex] = alumnoFinal //reemplaza el alumno que tiene ese indice
       await fs.writeFile('./data/alumnos.json', JSON.stringify(alumnos, null, 2), 'utf8') //espera a escrirbir
 
-      return res.status(201).json({ msg: 'Alumno modificado correctamente' })
+      return res.status(this.HTTP_CREATED).json({ msg: 'Alumno modificado correctamente' })
     } catch (error) {
-      return res.status(500).json({ msg: `Error al modificar el alumno (legajo: ${legajo})` })
+      return res.status(this.HTTP_SERVER_ERROR).json({ msg: `Error al modificar el alumno (legajo: ${legajo})` })
     }
   }
 
