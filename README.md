@@ -402,7 +402,7 @@ El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el
 curl --location 'https://tp4-grupo6.onrender.com/alumnos'
 ```
 
-Salida: 
+Salida Exitosa (200): 
 ```json
 [
     {
@@ -634,4 +634,9 @@ Salida:
 ```
 
 #### Screenshoot
+Salida Exitosa (200): 
 ![Postman Get All](./data/assets/alumno.getall.png)
+
+Salida Erronea (500):
+![Postman Get All Server Error](./data/assets/alumno.getall.500.png)
+
