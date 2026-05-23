@@ -12,7 +12,7 @@ export class AlumnoController extends NumerosMagicos{
 
     try {
       const data: string = await fs.readFile('./data/alumnos.json', 'utf8')
-      const alumnos: AlumnoModel[] = JSON.parse(data)
+      const alumnos: AlumnoModel[] = JSON.parse(data).map((item: any) => new AlumnoModel(item.legajo, item.nombre,item.apellido, item.email, item.fechaAlta, item.modificacion, item.isActive))
       codigo = this.HTTP_OK
       salida = alumnos
     } catch (error) {

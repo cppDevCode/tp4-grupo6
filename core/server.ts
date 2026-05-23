@@ -3,6 +3,7 @@ import { NumerosMagicos } from '../util/numeros-magicos'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import alumnoRoutes from '../routes/alumno.routes'
+import rutasNota from '../routes/extras/nota.routes'
 
 dotenv.config()
 
@@ -24,7 +25,8 @@ class Server extends NumerosMagicos{
   }
 
   private rutas(): void {
-    this.app.use('/alumnos', alumnoRoutes)
+    this.app.use('/notas', rutasNota)
+    this.app.use('/alumnos', alumnoRoutes)    
     /*
     this.app.use('/materias', require('../routes/extra/materia.routes'));
     this.app.use('/notas', require('../routes/extra/nota.routes'));
