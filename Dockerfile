@@ -20,9 +20,9 @@ WORKDIR /app
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S usuario-grupo6 -u 1001
 
-COPY --from=constructor --chown=usuario-grupo6:usuario-grupo6 /app/dist ./dist
-COPY --from=constructor --chown=usuario-grupo6:usuario-grupo6 /app/package*.json ./
-COPY --chown=usuario-grupo6:usuario-grupo6 data ./data
+COPY --from=constructor --chown=usuario-grupo6:nodejs /app/dist ./dist
+COPY --from=constructor --chown=usuario-grupo6:nodejs /app/package*.json ./
+COPY --chown=usuario-grupo6:nodejs data ./data
 
 
 RUN npm ci --omit=dev && \
