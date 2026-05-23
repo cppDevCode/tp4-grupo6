@@ -1,5 +1,5 @@
 import { AlumnoModel } from '../models/alumno.model'
-import { NumerosMagicos } from '../util/numerosMagicos'
+import { NumerosMagicos } from '../util/numeros-magicos'
 import { Request, Response } from 'express'
 import fs from 'fs/promises'
 

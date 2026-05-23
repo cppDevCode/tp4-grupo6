@@ -1,5 +1,5 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
-import { NumerosMagicos } from '../util/numerosMagicos'
+import { NumerosMagicos } from '../util/numeros-magicos'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import alumnoRoutes from '../routes/alumno.routes'
