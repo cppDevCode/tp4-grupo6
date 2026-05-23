@@ -2,8 +2,6 @@ import { NumerosMagicos } from "../util/numeros-magicos";
 import { NotaModel } from "../models/extras/nota.model";
 import { Request, Response } from 'express'
 import fs from 'fs/promises'
-import { json } from "sequelize";
-import { stringify } from "querystring";
 
 export class NotaController extends NumerosMagicos {
     public getNotas = async (req: Request, res: Response): Promise<Response> => {
