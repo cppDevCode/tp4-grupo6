@@ -45,6 +45,7 @@ Respuestas HTTP: 200, 500
 _TypeScript_
 
 - Definir la clase AlumnoModel en alumno.model.ts. Esta clase la van a reutilizar todos los demás alumnos para validar datos
+- Definir la clase numeros-magicos.ts con las constantes iniciales y extenderla en el alumno.controller y server. 
 - Refactorizacion de Controller a Clase TS (Estructura y metodo getAlumnos)
 - Refactorizacion a TS de server.js
 - Refactorizacion a TS de alumno.routes.js
@@ -391,3 +392,246 @@ En caso de que el alumno exista, se requiere un body en JSON con los atributos o
 ```
 
 El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el metodo PATCH se encarga de manejar las actualizaciones parciales.
+
+## Postman
+### Endpoint /alumnos
+
+#### Obtener todos los alumnos
+
+```bash
+curl --location 'https://tp4-grupo6.onrender.com/alumnos'
+```
+
+Salida: 
+```json
+[
+    {
+        "legajo": 10001,
+        "nombre": "Mora",
+        "apellido": "García",
+        "email": "m.garcia@facultad.edu.ar",
+        "fechaAlta": "2026-03-02",
+        "modificacion": "2026-03-02",
+        "isActive": true
+    },
+    {
+        "legajo": 10002,
+        "nombre": "Liam",
+        "apellido": "Rodríguez",
+        "email": "l.rodriguez@facultad.edu.ar",
+        "fechaAlta": "2026-03-02",
+        "modificacion": "2026-03-02",
+        "isActive": true
+    },
+    {
+        "legajo": 10003,
+        "nombre": "Julieta",
+        "apellido": "Martínez",
+        "email": "j.martinez@facultad.edu.ar",
+        "fechaAlta": "2026-03-03",
+        "modificacion": "2026-03-03",
+        "isActive": false
+    },
+    {
+        "legajo": 10004,
+        "nombre": "Mateo",
+        "apellido": "Pérez",
+        "email": "m.perez@facultad.edu.ar",
+        "fechaAlta": "2026-03-05",
+        "modificacion": "2026-03-05",
+        "isActive": true
+    },
+    {
+        "legajo": 10005,
+        "nombre": "Sofía",
+        "apellido": "López",
+        "email": "s.lopez@facultad.edu.ar",
+        "fechaAlta": "2026-03-10",
+        "modificacion": "2026-03-10",
+        "isActive": true
+    },
+    {
+        "legajo": 10006,
+        "nombre": "Lucas",
+        "apellido": "González",
+        "email": "l.gonzalez@facultad.edu.ar",
+        "fechaAlta": "2026-03-15",
+        "modificacion": "2026-03-15",
+        "isActive": true
+    },
+    {
+        "legajo": 10007,
+        "nombre": "Valentina",
+        "apellido": "Sánchez",
+        "email": "v.sanchez@facultad.edu.ar",
+        "fechaAlta": "2026-03-20",
+        "modificacion": "2026-03-20",
+        "isActive": false
+    },
+    {
+        "legajo": 10008,
+        "nombre": "Benjamín",
+        "apellido": "Romero",
+        "email": "b.romero@facultad.edu.ar",
+        "fechaAlta": "2026-03-22",
+        "modificacion": "2026-03-22",
+        "isActive": true
+    },
+    {
+        "legajo": 10009,
+        "nombre": "Martina",
+        "apellido": "Díaz",
+        "email": "m.diaz@facultad.edu.ar",
+        "fechaAlta": "2026-04-01",
+        "modificacion": "2026-04-01",
+        "isActive": true
+    },
+    {
+        "legajo": 10010,
+        "nombre": "Thiago",
+        "apellido": "Silva",
+        "email": "t.silva@facultad.edu.ar",
+        "fechaAlta": "2026-04-03",
+        "modificacion": "2026-04-03",
+        "isActive": true
+    },
+    {
+        "legajo": 10011,
+        "nombre": "Victoria",
+        "apellido": "Castro",
+        "email": "v.castro@facultad.edu.ar",
+        "fechaAlta": "2026-04-03",
+        "modificacion": "2026-04-03",
+        "isActive": false
+    },
+    {
+        "legajo": 10012,
+        "nombre": "Santino",
+        "apellido": "Sosa",
+        "email": "s.sosa@facultad.edu.ar",
+        "fechaAlta": "2026-04-06",
+        "modificacion": "2026-04-06",
+        "isActive": true
+    },
+    {
+        "legajo": 10013,
+        "nombre": "Delfina",
+        "apellido": "Ruiz",
+        "email": "d.ruiz@facultad.edu.ar",
+        "fechaAlta": "2026-04-12",
+        "modificacion": "2026-04-12",
+        "isActive": true
+    },
+    {
+        "legajo": 10014,
+        "nombre": "Camilo",
+        "apellido": "Torres",
+        "email": "c.torres@facultad.edu.ar",
+        "fechaAlta": "2026-04-18",
+        "modificacion": "2026-04-18",
+        "isActive": true
+    },
+    {
+        "legajo": 10015,
+        "nombre": "Elena",
+        "apellido": "Benítez",
+        "email": "e.benitez@facultad.edu.ar",
+        "fechaAlta": "2026-04-20",
+        "modificacion": "2026-04-20",
+        "isActive": false
+    },
+    {
+        "legajo": 10016,
+        "nombre": "Felipe",
+        "apellido": "Acosta",
+        "email": "f.acosta@facultad.edu.ar",
+        "fechaAlta": "2026-04-25",
+        "modificacion": "2026-04-25",
+        "isActive": true
+    },
+    {
+        "legajo": 10017,
+        "nombre": "Alma",
+        "apellido": "Flores",
+        "email": "a.flores@facultad.edu.ar",
+        "fechaAlta": "2026-05-02",
+        "modificacion": "2026-05-02",
+        "isActive": true
+    },
+    {
+        "legajo": 10018,
+        "nombre": "Facundo",
+        "apellido": "Morales",
+        "email": "f.morales@facultad.edu.ar",
+        "fechaAlta": "2026-05-04",
+        "modificacion": "2026-05-04",
+        "isActive": true
+    },
+    {
+        "legajo": 10019,
+        "nombre": "Isabella",
+        "apellido": "Ortiz",
+        "email": "i.ortiz@facultad.edu.ar",
+        "fechaAlta": "2026-05-05",
+        "modificacion": "2026-05-05",
+        "isActive": true
+    },
+    {
+        "legajo": 10020,
+        "nombre": "Joaquín",
+        "apellido": "Ramos",
+        "email": "j.ramos@facultad.edu.ar",
+        "fechaAlta": "2026-05-05",
+        "modificacion": "2026-05-05",
+        "isActive": false
+    },
+    {
+        "legajo": 10021,
+        "nombre": "Bautista",
+        "apellido": "Herrera",
+        "email": "b.herrera@facultad.edu.ar",
+        "fechaAlta": "2026-05-08",
+        "modificacion": "2026-05-08",
+        "isActive": true
+    },
+    {
+        "legajo": 10022,
+        "nombre": "Lola",
+        "apellido": "Medina",
+        "email": "l.medina@facultad.edu.ar",
+        "fechaAlta": "2026-05-10",
+        "modificacion": "2026-05-10",
+        "isActive": true
+    },
+    {
+        "legajo": 10023,
+        "nombre": "Juan Cruz",
+        "apellido": "Vega",
+        "email": "jc.vega@facultad.edu.ar",
+        "fechaAlta": "2026-05-11",
+        "modificacion": "2026-05-11",
+        "isActive": true
+    },
+    {
+        "legajo": 10024,
+        "nombre": "Catalina",
+        "apellido": "Blanco",
+        "email": "c.blanco@facultad.edu.ar",
+        "fechaAlta": "2026-05-12",
+        "modificacion": "2026-05-12",
+        "isActive": true
+    },
+    {
+        "legajo": 10025,
+        "nombre": "Tomás",
+        "apellido": "Méndez",
+        "email": "t.mendez@facultad.edu.ar",
+        "fechaAlta": "2026-05-14",
+        "modificacion": "2026-05-14",
+        "isActive": true
+    }
+]
+```
+
+#### Screenshoot
+![Postman Get All](./data/assets/alumno.getall.png)
