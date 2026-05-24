@@ -24,9 +24,8 @@ COPY --from=constructor --chown=usuario-grupo6:usuario-grupo6 /app/dist ./dist
 COPY --from=constructor --chown=usuario-grupo6:usuario-grupo6 /app/package*.json ./
 COPY --chown=usuario-grupo6:usuario-grupo6 data ./data
 
-
 RUN npm ci --omit=dev && \
-    npm cache clean --force
+    npm cache clean --forcé
 
 USER usuario-grupo6
 
