@@ -116,4 +116,51 @@ export class AlumnoController extends NumerosMagicos{
         .json({ error: 'Error interno del servidor. No se pudo actualizar el alumno' })
     }
   }
+  //Mar - Eliminar alumno por legajo
+
+    public deleteAlumno = async (req: Request, res: Response): Promise<Response> => {
+      console.log('ENTRO AL DELETE')
+      const { legajo } = req.params
+
+    try {
+      //leo archivo y parseo datos
+      const data: string = await fs.readFile('./data/alumnos.json', 'utf-8')
+      const alumnos: AlumnoModel[] = JSON.parse(data)
+
+      //busco indice de alumno
+      const alumnoIndex = alumnos.findIndex((alumno: any) => alumno.legajo === Number(legajo))
+
+      //si no lo encuentro, devuelvo error
+      if (alumnoIndex === -1) {
+        return res
+          .status(this.HTTP_NOT_FOUND)
+          .json({ error: `No se encontró ningún alumno con el legajo ${legajo}` })
+      }
+
+      //guardo alumno y creo array con filter sin el alumno a eliminar 
+      const alumnoEliminado = alumnos[alumnoIndex]
+      const alumnosActualizados = alumnos.filter((alumno: any) => alumno.legajo !== Number(legajo))
+
+      //escribo nuevo array sin el alumno eliminado
+      await fs.writeFile('./data/alumnos.json', JSON.stringify(alumnosActualizados, null, 2), 'utf-8')
+
+      //log de alumno eliminado
+      console.log(`[DELETE] Alumno con legajo ${legajo} eliminado correctamente.`)
+
+      //devuelvo respuesta con alumno eliminado
+      return res.status(this.HTTP_OK).json({
+        msg: `Alumno con legajo ${legajo} eliminado correctamente`,
+        alumnoEliminado: alumnoEliminado
+      })
+
+    } catch (error) {
+      //capturo y logueo error, devuelvo respuesta de error
+      console.error('[DELETE] Error al eliminar alumno:', error)
+      return res
+        .status(this.HTTP_SERVER_ERROR)
+        .json({ error: `Error interno del servidor. No se pudo eliminar el alumno con legajo ${legajo}` })
+    }
+  }
+
 }
+
