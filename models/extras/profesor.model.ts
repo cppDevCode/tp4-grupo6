@@ -6,6 +6,7 @@ export class ProfesorModel extends PersonaModel {
   private fechaAlta: string;
   private modificacion: string;
   private materias: string[];
+  private isActive: boolean;
 
   constructor(
     nombre: string,
@@ -13,15 +14,17 @@ export class ProfesorModel extends PersonaModel {
     email: string,
     dni: number,
     cargo: string,
+    isActive: boolean,
+    materias: string[],
     fechaAlta: string = new Date().toISOString().split("T")[0],
     modificacion: string = new Date().toISOString().split("T")[0],
-    materias: string[],
   ) {
     super(nombre, apellido, email);
     this.dni = dni;
     this.cargo = cargo;
     this.fechaAlta = fechaAlta;
     this.modificacion = modificacion;
+    this.isActive = isActive;
     this.materias = materias;
   }
 
@@ -59,6 +62,15 @@ export class ProfesorModel extends PersonaModel {
 
   getModificacion(): string {
     return this.modificacion;
+  }
+
+  //isActive
+  setIsActive(isActive: boolean): void {
+    this.isActive = isActive;
+  }
+
+  getIsActive(): boolean {
+    return this.isActive;
   }
 
   //materias
