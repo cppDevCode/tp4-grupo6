@@ -1,0 +1,112 @@
+[
+  {
+    "dni": 28456123,
+    "nombre": "Roberto",
+    "apellido": "Fernández",
+    "email": "r.fernandez@facultad.edu.ar",
+    "cargo": "titular",
+    "materias": ["MAT101"],
+    "fechaAlta": "2024-03-01",
+    "modificacion": "2024-03-01",
+    "isActive": true
+  },
+  {
+    "dni": 31789456,
+    "nombre": "Claudia",
+    "apellido": "Suárez",
+    "email": "c.suarez@facultad.edu.ar",
+    "cargo": "titular",
+    "materias": ["PROG1", "LABO1"],
+    "fechaAlta": "2024-03-01",
+    "modificacion": "2024-03-01",
+    "isActive": true
+  },
+  {
+    "dni": 25634789,
+    "nombre": "Marcelo",
+    "apellido": "Ibáñez",
+    "email": "m.ibanez@facultad.edu.ar",
+    "cargo": "adjunto",
+    "materias": ["SIST1"],
+    "fechaAlta": "2024-03-05",
+    "modificacion": "2024-03-05",
+    "isActive": true
+  },
+  {
+    "dni": 33124567,
+    "nombre": "Valeria",
+    "apellido": "Quiroga",
+    "email": "v.quiroga@facultad.edu.ar",
+    "cargo": "adjunto",
+    "materias": ["ING1"],
+    "fechaAlta": "2024-03-05",
+    "modificacion": "2024-03-05",
+    "isActive": true
+  },
+  {
+    "dni": 29876543,
+    "nombre": "Diego",
+    "apellido": "Maldonado",
+    "email": "d.maldonado@facultad.edu.ar",
+    "cargo": "ayudante",
+    "materias": ["PROG1"],
+    "fechaAlta": "2024-03-10",
+    "modificacion": "2024-03-10",
+    "isActive": true
+  },
+  {
+    "dni": 27345678,
+    "nombre": "Natalia",
+    "apellido": "Vargas",
+    "email": "n.vargas@facultad.edu.ar",
+    "cargo": "ayudante",
+    "materias": ["MAT101", "SIST1"],
+    "fechaAlta": "2024-03-10",
+    "modificacion": "2024-03-10",
+    "isActive": false
+  },
+  {
+    "dni": 32567890,
+    "nombre": "Andrés",
+    "apellido": "Cabrera",
+    "email": "a.cabrera@facultad.edu.ar",
+    "cargo": "titular",
+    "materias": ["LABO1", "SIST1"],
+    "fechaAlta": "2024-04-01",
+    "modificacion": "2024-04-01",
+    "isActive": true
+  },
+  {
+    "dni": 30987654,
+    "nombre": "Luciana",
+    "apellido": "Ponce",
+    "email": "l.ponce@facultad.edu.ar",
+    "cargo": "adjunto",
+    "materias": ["ING1", "PROG1"],
+    "fechaAlta": "2024-04-01",
+    "modificacion": "2024-04-01",
+    "isActive": true
+  },
+  {
+    "dni": 26789012,
+    "nombre": "Sebastián",
+    "apellido": "Aguilar",
+    "email": "s.aguilar@facultad.edu.ar",
+    "cargo": "ayudante",
+    "materias": ["MAT101"],
+    "fechaAlta": "2024-04-15",
+    "modificacion": "2024-04-15",
+    "isActive": false
+  },
+  {
+    "dni": 34012345,
+    "nombre": "Carolina",
+    "apellido": "Navarro",
+    "email": "c.navarro@facultad.edu.ar",
+    "cargo": "titular",
+    "materias": ["PROG1", "LABO1", "SIST1"],
+    "fechaAlta": "2024-05-01",
+    "modificacion": "2024-05-01",
+    "isActive": true
+  }
+]
