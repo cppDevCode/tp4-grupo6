@@ -1288,4 +1288,4 @@ Salida Errónea DNI duplicado (409):
 ![Postman Post Conflict](./data/assets/profesor.post.409.png)
 
 Salida Errónea materia inexistente (400):
-![Postman Post Bad Request](./data/assets/profesor.post.400.png)
+![Postman Post Bad Request](./data/assets/profesor.post.materia.400.png)
