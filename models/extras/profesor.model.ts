@@ -88,6 +88,7 @@ export class ProfesorModel extends PersonaModel {
     this.email = profesor.getEmail()
     this.dni = profesor.getDni()
     this.cargo = profesor.getCargo()
+    this.isActive = profesor.getIsActive()
     this.fechaAlta = profesor.getFechaAlta()
     this.modificacion = profesor.getModificacion()
     this.materias = profesor.getMaterias()
@@ -98,6 +99,7 @@ export class ProfesorModel extends PersonaModel {
       ...super.getAllAttributes(),
       dni: this.dni,
       cargo: this.cargo,
+      isActive: this.isActive,
       fechaAlta: this.fechaAlta,
       modificacion: this.modificacion,
       materias: this.materias
