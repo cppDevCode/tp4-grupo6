@@ -60,4 +60,60 @@ export class ProfesorController extends NumerosMagicos {
         .json({ error: 'Error interno. No se pudo obtener el profesor' })
     }
   }
+
+  public postProfesor = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const { nombre, apellido, email, dni, cargo, isActive, materias } = req.body
+      const profesores = await this.leerProfesores()
+
+      const existeDni = profesores.some((profesor) => profesor.getDni() === Number(dni))
+
+      if (existeDni) {
+        return res
+          .status(this.HTTP_BAD_REQUEST)
+          .json({ error: `Ya existe un profesor con DNI ${dni}` })
+      }
+
+      const data = await fs.readFile('./data/extras/sys-materias.json', 'utf-8')
+      const materiasDisponibles = JSON.parse(data).map((materia: any) => materia.idMateria)
+
+      let existeMateria = true
+      materias.forEach((materia: string) => {
+        if (!materiasDisponibles.includes(materia)) {
+          existeMateria = false
+        }
+      })
+
+      if (!existeMateria) {
+        return res
+          .status(this.HTTP_BAD_REQUEST)
+          .json({ error: `Alguna de las materias ingresadas no existe` })
+      }
+
+      const nuevoProfesor = new ProfesorModel(
+        nombre,
+        apellido,
+        email,
+        dni,
+        cargo,
+        isActive,
+        materias
+      )
+
+      profesores.push(nuevoProfesor)
+      await fs.writeFile(
+        './data/extras/sys-profesores.json',
+        JSON.stringify(profesores, null, 2),
+        'utf-8'
+      )
+      return res
+        .status(this.HTTP_CREATED)
+        .json({ msg: 'Profesor creado exitosamente', profesor: nuevoProfesor })
+    } catch (error) {
+      console.error(error)
+      return res
+        .status(this.HTTP_SERVER_ERROR)
+        .json({ error: 'Error interno. No se pudo crear el profesor' })
+    }
+  }
 }

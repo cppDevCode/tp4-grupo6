@@ -7,5 +7,6 @@ const profesorController = new ProfesorController()
 
 rutas.get('/', profesorController.getProfesores)
 rutas.get('/:dni', profesorController.getProfesorByDni)
+rutas.post('/', validarProfesor, profesorController.postProfesor)
 
 export default rutas
