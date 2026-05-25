@@ -55,6 +55,7 @@ export class ProfesorController extends NumerosMagicos {
 
       return res.status(this.HTTP_OK).json(profesorEncontrado)
     } catch (error) {
+      console.error(error)
       return res
         .status(this.HTTP_SERVER_ERROR)
         .json({ error: 'Error interno. No se pudo obtener el profesor' })
@@ -70,21 +71,18 @@ export class ProfesorController extends NumerosMagicos {
 
       if (existeDni) {
         return res
-          .status(this.HTTP_BAD_REQUEST)
+          .status(this.HTTP_EXISTING_RESOURCE)
           .json({ error: `Ya existe un profesor con DNI ${dni}` })
       }
 
       const data = await fs.readFile('./data/extras/sys-materias.json', 'utf-8')
       const materiasDisponibles = JSON.parse(data).map((materia: any) => materia.idMateria)
 
-      let existeMateria = true
-      materias.forEach((materia: string) => {
-        if (!materiasDisponibles.includes(materia)) {
-          existeMateria = false
-        }
-      })
+      const todasExisten = materias.every((materia: string) =>
+        materiasDisponibles.includes(materia)
+      )
 
-      if (!existeMateria) {
+      if (!todasExisten) {
         return res
           .status(this.HTTP_BAD_REQUEST)
           .json({ error: `Alguna de las materias ingresadas no existe` })
