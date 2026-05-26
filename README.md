@@ -126,6 +126,21 @@ _Postman_
 
 Documentar con ejemplo de eliminación exitosa (200) e id inexistente (404)
 
+**PATCH /profesores/:dni**  
+_Backend_
+
+Recibir el DNI por req.params y los datos a modificar por req.body  
+Validar los campos del body mediante el middleware validarProfesor (400 si hay errores)  
+Verificar que el profesor exista, devolver 404 si no  
+Verificar que todas las materias enviadas existan en sys-materias.json (400 si no)  
+No permitir modificar el DNI ni la fechaAlta aunque vengan en el body  
+Actualizar los campos con setters y guardar el JSON  
+Respuestas HTTP: 200, 400, 404, 500
+
+_Postman_
+
+Documentar con ejemplo de modificación exitosa (200), datos inválidos (400), materia inexistente (400) y DNI inexistente (404)
+
 #### Clara Zivano
 
 **POST /alumnos**  
