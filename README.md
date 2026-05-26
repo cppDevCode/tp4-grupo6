@@ -548,7 +548,39 @@ La clase ProfesorModel hereda de PersonaModel
   }
 ]
 ```
+2. getAlumnoByID
+   Busca y obtiene un alumno específico desde el archivo JSON a partir de su 
+   legajo recibido como parámetro en la URL. Envía la respuesta HTTP correspondiente.
 
+   Parámetros: legajo (number) — recibido por req.params
+
+   Retorna: Envía una respuesta JSON con el objeto del alumno encontrado, 
+   o un mensaje de error según el caso.
+
+Ejemplo respuesta 200:
+```json
+{
+  "legajo": 10001,
+  "nombre": "Mora",
+  "apellido": "García",
+  "email": "m.garcia@facultad.edu.ar",
+  "fechaAlta": "2026-03-02",
+  "modificacion": "2026-03-02",
+  "isActive": true
+}
+```
+Ejemplo respuesta 404:
+```json
+{
+  "error": "No existe el alumno con legajo 99999"
+}
+```
+Ejemplo respuesta 500:
+```json
+{
+  "error": "No se pudo obtener el detalle del alumno"
+}
+```
 1. putAlumno
    Edita todos los atributos de un alumno con legajo recibido por parametros en la Request:
 
@@ -1290,36 +1322,3 @@ Salida Errónea DNI duplicado (409):
 
 Salida Errónea materia inexistente (400):
 ![Postman Post Bad Request](./data/assets/profesor.post.materia.400.png)
-2. getAlumnoByID
-   Busca y obtiene un alumno específico desde el archivo JSON a partir de su 
-   legajo recibido como parámetro en la URL. Envía la respuesta HTTP correspondiente.
-
-   Parámetros: legajo (number) — recibido por req.params
-
-   Retorna: Envía una respuesta JSON con el objeto del alumno encontrado, 
-   o un mensaje de error según el caso.
-
-Ejemplo respuesta 200:
-```json
-{
-  "legajo": 10001,
-  "nombre": "Mora",
-  "apellido": "García",
-  "email": "m.garcia@facultad.edu.ar",
-  "fechaAlta": "2026-03-02",
-  "modificacion": "2026-03-02",
-  "isActive": true
-}
-```
-Ejemplo respuesta 404:
-```json
-{
-  "error": "No existe el alumno con legajo 99999"
-}
-```
-Ejemplo respuesta 500:
-```json
-{
-  "error": "No se pudo obtener el detalle del alumno"
-}
-```
