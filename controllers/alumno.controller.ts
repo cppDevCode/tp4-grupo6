@@ -23,6 +23,33 @@ export class AlumnoController extends NumerosMagicos{
     return res.status(codigo).json(salida)
   }
 
+  public getAlumnoById = async (req: Request, res: Response): Promise<Response> => {
+    let codigo: number
+    let salida: object
+
+    try {
+      const data: string = await fs.readFile('./data/alumnos.json', 'utf8')
+      const alumnos: AlumnoModel[] = JSON.parse(data)
+      const legajo = Number(req.params.legajo)
+      const alumno= alumnos.find((a: any) => a.legajo === legajo)
+
+      if (!alumno) {
+        console.log(`[404] GET /alumnos/${legajo} - Alumno no encontrado`)
+        codigo = this.HTTP_NOT_FOUND
+        salida = { error: `No existe el alumno con legajo ${legajo}` }
+      } else {
+        console.log(`[OK] GET /alumnos/${legajo} - Alumno encontrado`)
+        codigo = this.HTTP_OK
+        salida = alumno
+      }
+    } catch (error) {
+      console.log('[ERROR] getAlumnoById', error)
+      codigo = this.HTTP_SERVER_ERROR
+      salida = { error: 'No se pudieron obtener los datos del alumno' }
+    }
+    return res.status(codigo).json(salida)
+  }
+
   //Mati
   public patchAlumno = async (req: Request, res: Response) => {
     const { legajo } = req.params

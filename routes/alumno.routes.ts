@@ -6,6 +6,7 @@ const rutas = Router()
 const alumnoController = new AlumnoController()
 
 rutas.get('/', alumnoController.getAlumnos)
+rutas.get('/:legajo', alumnoController.getAlumnoById)
 rutas.patch('/:legajo', validarAlumno, alumnoController.patchAlumno)
 rutas.put('/:legajo', validarAlumno, alumnoController.putAlumno)
 rutas.delete('/:legajo', alumnoController.deleteAlumno)
