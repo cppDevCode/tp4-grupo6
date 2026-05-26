@@ -126,6 +126,21 @@ _Postman_
 
 Documentar con ejemplo de eliminación exitosa (200) e id inexistente (404)
 
+**PATCH /profesores/:dni**  
+_Backend_
+
+Recibir el DNI por req.params y los datos a modificar por req.body  
+Validar los campos del body mediante el middleware validarProfesor (400 si hay errores)  
+Verificar que el profesor exista, devolver 404 si no  
+Verificar que todas las materias enviadas existan en sys-materias.json (400 si no)  
+No permitir modificar el DNI ni la fechaAlta aunque vengan en el body  
+Actualizar los campos con setters y guardar el JSON  
+Respuestas HTTP: 200, 400, 404, 500
+
+_Postman_
+
+Documentar con ejemplo de modificación exitosa (200), datos inválidos (400), materia inexistente (400) y DNI inexistente (404)
+
 #### Clara Zivano
 
 **POST /alumnos**  
@@ -581,7 +596,7 @@ Ejemplo respuesta 500:
   "error": "No se pudo obtener el detalle del alumno"
 }
 ```
-1. putAlumno
+3. putAlumno
    Edita todos los atributos de un alumno con legajo recibido por parametros en la Request:
 
 ```
@@ -602,6 +617,43 @@ En caso de que el alumno exista, se requiere un body en JSON con los atributos o
 ```
 
 El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el metodo PATCH se encarga de manejar las actualizaciones parciales.
+
+4. deleteAlumno
+   Elimina un alumno del archivo JSON a partir de su legajo recibido como
+   parámetro en la URL. Guarda el archivo actualizado y envía la respuesta HTTP correspondiente.
+
+   Parámetros: legajo (number) — recibido por req.params
+
+   Retorna: Envía una respuesta JSON con el alumno eliminado y un mensaje de confirmación,
+   o un mensaje de error según el caso.
+
+Ejemplo respuesta 200:
+```json
+{
+  "msg": "Alumno con legajo 10001 eliminado correctamente",
+  "alumnoEliminado": {
+    "legajo": 10001,
+    "nombre": "Mora",
+    "apellido": "García",
+    "email": "m.garcia@facultad.edu.ar",
+    "fechaAlta": "2026-03-02",
+    "modificacion": "2026-03-02",
+    "isActive": true
+  }
+}
+```
+Ejemplo respuesta 404:
+```json
+{
+  "error": "No se encontró ningún alumno con el legajo 99999"
+}
+```
+Ejemplo respuesta 500:
+```json
+{
+  "error": "Error interno del servidor. No se pudo eliminar el alumno con legajo 10001"
+}
+```
 
 ### nota.controller
 
@@ -737,6 +789,55 @@ El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el
 ```
 
 Retorna **201** con el profesor creado en caso de éxito.
+
+4. patchProfesor
+   Modifica los datos de un profesor existente en el archivo JSON a partir de su
+   DNI recibido como parámetro en la URL. No permite modificar el DNI ni la fechaAlta.
+   Valida los campos del body mediante el middleware validarProfesor antes de llegar
+   al controlador, y verifica que las materias existan en sys-materias.json.
+   Guarda el archivo actualizado y envía la respuesta HTTP correspondiente.
+
+   Parámetros: dni (number) — recibido por req.params
+
+   Retorna: Envía una respuesta JSON con el profesor modificado y un mensaje de confirmación,
+   o un mensaje de error según el caso.
+
+Ejemplo respuesta 200:
+```json
+{
+  "msg": "Profesor con DNI 28456123 modificado correctamente",
+  "profesor": {
+    "nombre": "Roberto",
+    "apellido": "Fernández",
+    "email": "r.fernandez@facultad.edu.ar",
+    "dni": 28456123,
+    "cargo": "adjunto",
+    "isActive": true,
+    "fechaAlta": "2024-03-01",
+    "modificacion": "2026-05-26",
+    "materias": ["MAT101", "PROG1"]
+  }
+}
+```
+Ejemplo respuesta 400 — datos inválidos (middleware):
+```json
+{
+  "msg": "Datos invalidos",
+  "error": ["Ingrese un nombre valido"]
+}
+```
+Ejemplo respuesta 400 — materia inexistente (controller):
+```json
+{
+  "error": "Alguna de las materias ingresadas no existe"
+}
+```
+Ejemplo respuesta 404:
+```json
+{
+  "error": "No se encontró ningún profesor con DNI 99999999"
+}
+```
 
 ## Postman
 
