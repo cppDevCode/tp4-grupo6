@@ -344,7 +344,7 @@ La clase AlumnoModel hereda de Persona Model
 
 1. getAlumnos
    Obtiene todos los alumnos desde el archivo JSON y envía la respuesta HTTP.
-   Retorna: Envía una respuesta JSON con el array de servicios o un error
+   Retorna: Envía una respuesta JSON con el array de alumnos o un error
 ```json
 [
   {
@@ -365,6 +365,7 @@ La clase AlumnoModel hereda de Persona Model
     "modificacion": "2026-03-02",
     "isActive": true
   }
+]
 ```
 2. getAlumnoByID
    Busca y obtiene un alumno específico desde el archivo JSON a partir de su 
@@ -373,7 +374,7 @@ La clase AlumnoModel hereda de Persona Model
    Parámetros: legajo (number) — recibido por req.params
 
    Retorna: Envía una respuesta JSON con el objeto del alumno encontrado, 
-o   un mensaje de error según el caso.
+   o un mensaje de error según el caso.
 
 Ejemplo respuesta 200:
 ```json
@@ -388,13 +389,13 @@ Ejemplo respuesta 200:
 }
 ```
 Ejemplo respuesta 404:
-```ts
+```json
 {
   "error": "No existe el alumno con legajo 99999"
 }
 ```
 Ejemplo respuesta 500:
-```ts
+```json
 {
   "error": "No se pudo obtener el detalle del alumno"
 }
