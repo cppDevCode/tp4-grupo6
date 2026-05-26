@@ -366,3 +366,36 @@ La clase AlumnoModel hereda de Persona Model
     "isActive": true
   }
 ```
+2. getAlumnoByID
+   Busca y obtiene un alumno específico desde el archivo JSON a partir de su 
+   legajo recibido como parámetro en la URL. Envía la respuesta HTTP correspondiente.
+
+   Parámetros: legajo (number) — recibido por req.params
+
+   Retorna: Envía una respuesta JSON con el objeto del alumno encontrado, 
+o   un mensaje de error según el caso.
+
+Ejemplo respuesta 200:
+```json
+{
+  "legajo": 10001,
+  "nombre": "Mora",
+  "apellido": "García",
+  "email": "m.garcia@facultad.edu.ar",
+  "fechaAlta": "2026-03-02",
+  "modificacion": "2026-03-02",
+  "isActive": true
+}
+```
+Ejemplo respuesta 404:
+```ts
+{
+  "error": "No existe el alumno con legajo 99999"
+}
+```
+Ejemplo respuesta 500:
+```ts
+{
+  "error": "No se pudo obtener el detalle del alumno"
+}
+```
