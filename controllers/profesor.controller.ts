@@ -176,4 +176,82 @@ export class ProfesorController extends NumerosMagicos {
         .json({ error: 'Error interno. No se pudo actualizar el profesor' })
     }
   }   
+
+  public patchProfesor = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    //obtengo dni de la request
+    const { dni } = req.params
+    //obtengo dato a modificar del body
+    const { nombre, apellido, email, cargo, isActive, materias } = req.body
+
+    //leo profesores del json
+    const profesores = await this.leerProfesores()
+
+    //busco indice del profesor a modificar
+    const profesorIndex = profesores.findIndex(
+      (profesor) => profesor.getDni() === Number(dni)
+    )
+
+    //si no existe , retorno error
+    if (profesorIndex === -1) {
+      return res
+        .status(this.HTTP_NOT_FOUND)
+        .json({ error: `No se encontró ningún profesor con DNI ${dni}` })
+    }
+
+    // Valido que las materias existan
+    const data = await fs.readFile('./data/extras/sys-materias.json', 'utf-8')
+    const materiasDisponibles = JSON.parse(data).map((materia: any) => materia.idMateria)
+
+    const todasExisten = materias.every((materia: string) =>
+      materiasDisponibles.includes(materia)
+    )
+    // Si alguna materia no existe, devuelvo error
+    if (!todasExisten) {
+      return res
+        .status(this.HTTP_BAD_REQUEST)
+        .json({ error: 'Alguna de las materias ingresadas no existe' })
+    }
+
+    // Modifico atributos del profesor
+    const profesorModificado = profesores[profesorIndex]
+    profesorModificado.setNombre(nombre)
+    profesorModificado.setApellido(apellido)
+    profesorModificado.setEmail(email)
+    profesorModificado.setCargo(cargo)
+    profesorModificado.setIsActive(isActive)
+    profesorModificado.setMaterias(materias)
+    profesorModificado.setModificacion(new Date().toISOString().split('T')[0])
+    // dni y fechaAlta no se modifican
+
+    // Reemplazo el profesor modificado en el array
+    profesores[profesorIndex] = profesorModificado
+
+    // Escribo el array actualizado en el json
+    await fs.writeFile(
+      './data/extras/sys-profesores.json',
+      JSON.stringify(
+        profesores.map((p) => p.getAllAttributes()),
+        null,
+        2
+      ),
+      'utf-8'
+    )
+
+    //muestro mensaje de exito 
+    console.log(`[PATCH] Profesor con DNI ${dni} modificado correctamente.`)
+
+    //devuelvo respuesta con el profesor modificado
+    return res.status(this.HTTP_OK).json({
+      msg: `Profesor con DNI ${dni} modificado correctamente`,
+      profesor: profesorModificado.getAllAttributes()
+    })
+
+  } catch (error) { //log de error y respuesta de error
+    console.error(error)
+    return res
+      .status(this.HTTP_SERVER_ERROR)
+      .json({ error: 'Error interno. No se pudo modificar el profesor' })
+  }
+}
 }

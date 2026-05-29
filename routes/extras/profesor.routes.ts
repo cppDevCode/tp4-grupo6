@@ -9,4 +9,6 @@ rutas.get('/', profesorController.getProfesores)
 rutas.get('/:dni', profesorController.getProfesorByDni)
 rutas.post('/', validarProfesor, profesorController.postProfesor)
 rutas.put('/:dni', validarProfesor, profesorController.putProfesor)
+rutas.patch('/:dni', validarProfesor, profesorController.patchProfesor)
+
 export default rutas
