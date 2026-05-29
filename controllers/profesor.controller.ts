@@ -266,7 +266,7 @@ export class ProfesorController extends NumerosMagicos {
       }
 
       // Elimino el profesor del array
-      profesores.splice(profesorIndex, 1)
+      const profesorEliminado = profesores.splice(profesorIndex, 1)
 
       // Escribo el array actualizado en el json
       await fs.writeFile(
@@ -285,7 +285,7 @@ export class ProfesorController extends NumerosMagicos {
       // Devuelvo respuesta con el profesor eliminado
       return res.status(this.HTTP_OK).json({
         msg: `Profesor con DNI ${dni} eliminado exitosamente`,
-        profesor: profesores[profesorIndex]
+        profesor: profesorEliminado[0].getAllAttributes()
       })
     } catch (error) {
       console.error(error)
