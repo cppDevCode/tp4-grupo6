@@ -2,7 +2,8 @@
 
 Bienvenid@ al repositorio del Trabajo Práctico N°4 para la asignatura de Programación 3. En este proyecto el Grupo 6 ha desarrollado una API para integrarla a futuro con un front a desarrollar en React.
 
-Link:
+Link render: https://tp4-grupo6.onrender.com/ 
+Documentación Postman: https://documenter.getpostman.com/view/27247513/2sBXwntXXd 
 
 ## 🎯 Objetivos del TP
 
@@ -54,7 +55,8 @@ Respuestas HTTP: 200, 500
 Obtener la nota a partir del numero de legajo de un alumno  
 Respuestas HTTP: 200, 404, 500
 
-_Middleware_
+_Middleware_  
+
 Crear MiddleWare para endpoint notas
 
 _TypeScript_
@@ -83,12 +85,22 @@ Documentar Metodo Controller y Model Persona y Alumno
 **PATCH /alumnos/:id**  
 _Backend_
 
-Recibir el legajo por req.params y los campos a modificar por req.body
+Recibir el legajo por req.params y los campos a modificar por req.body.
 Verificar que el alumno exista, devolver 404 si no
 A diferencia del PUT del Alumno 4, solo actualiza los campos que llegan en el body — los que no vienen se mantienen con su valor original
 No permitir modificar el número de legajo aunque venga en el body, igual que el PUT
-Guardar el JSON actualizado
+Guardar el JSON actualizado  
+
 Respuestas HTTP: 200, 400, 404, 500
+
+**GET /alumnos/:id/notas**  
+
+Devuelve el alumno por legajo con sus notas correspondientes 
+
+_Middleware_  
+
+Crear middleware para endpoint alumnos
+
 
 _Postman_
 
@@ -99,8 +111,7 @@ Comparar en la descripción la diferencia con el PUT para que quede documentado 
 
 #### Julián Riedinger
 
-**PUT /alumnos/:id**  
-_Backend_
+**PUT /alumnos/:id Backend**  
 
 Recibir el legajo por req.params y los datos a modificar por req.body
 Verificar que el alumno exista, devolver 404 si no
@@ -108,9 +119,43 @@ No permitir modificar el número de legajo aunque venga en el body
 Actualizar los campos y guardar el JSON
 Respuestas HTTP: 200, 404, 500
 
-_Postman_
+_Postman_  
 
 Documentar con ejemplo de modificación exitosa (200) e id inexistente (404)
+
+### Profesores (Extra)
+**profesor.model**  
+
+Definir la clase ProfesorModel en profesor.model.ts heredando de PersonaModel con los atributos dni, cargo, isActive, materias, fechaAlta y modificacion
+
+_Middleware de profesores_  
+
+Validar la estructura y formato de los datos recibidos en el body antes de que lleguen al controlador. La validación cruzada de ids de materias contra sys-materias.json se delega al controlador por requerir una operación asíncrona
+
+**GET /profesores**  
+
+Leer sys-profesores.json y devolver el array completo de profesores mapeados a instancias de ProfesorModel
+Respuestas HTTP: 200, 404, 500
+
+**GET /profesores/:dni**  
+
+Buscar un profesor por DNI recibido por req.params
+Respuestas HTTP: 200, 404, 500
+
+**POST /profesores**  
+
+Recibir los datos del nuevo profesor por req.body, validar que el DNI no esté duplicado y que todos los ids de materias existan en sys-materias.json antes de persistir
+Respuestas HTTP: 201, 400, 409, 500
+
+**DELETE /profesores/:dni**  
+
+Eliminar un profesor por DNI recibido por req.params y persistir el JSON actualizado
+Respuestas HTTP: 200, 404, 500
+
+_Postman_  
+
+Documentar GET /profesores, GET /profesores/:dni, POST /profesores y DELETE /profesores/:dni con ejemplos de respuesta exitosa y casos de error
+
 
 #### Marianela Belardinelli
 
@@ -129,8 +174,7 @@ Documentar con ejemplo de eliminación exitosa (200) e id inexistente (404)
 **PATCH /profesores/:dni**  
 _Backend_
 
-Recibir el DNI por req.params y los datos a modificar por req.body  
-Validar los campos del body mediante el middleware validarProfesor (400 si hay errores)  
+Recibir el DNI por req.params y los datos a modificar por req.body   
 Verificar que el profesor exista, devolver 404 si no  
 Verificar que todas las materias enviadas existan en sys-materias.json (400 si no)  
 No permitir modificar el DNI ni la fechaAlta aunque vengan en el body  
@@ -158,7 +202,8 @@ Documentar con ejemplo de creación exitosa (201), datos inválidos (400), legaj
 
 #### Julieta Dabús
 
-**GET /alumnos/:id**
+**GET /alumnos/:id**  
+
 _Backend_
 
 Buscar en el JSON por legajo recibido en req.params
@@ -168,6 +213,14 @@ Respuestas HTTP: 200, 404, 500
 _Postman_
 
 Documentar con ejemplo de id existente (200), id inexistente (404) y error de servidor (500)
+
+**PUT /profesores**  
+
+Recibir el legajo por req.params y los datos a modificar por req.body
+Verificar que el profesor exista, devolver 404 si no
+No permitir modificar el número de legajo aunque venga en el body
+Actualizar los campos y guardar el JSON
+Respuestas HTTP: 200, 404, 500
 
 ## 🛠️ Tecnologías Utilizadas
 
@@ -839,587 +892,3 @@ Ejemplo respuesta 404:
 }
 ```
 
-## Postman
-
-### Endpoint /alumnos
-
-#### Obtener todos los alumnos
-
-```bash
-curl --location 'https://tp4-grupo6.onrender.com/alumnos'
-```
-
-Salida Exitosa (200):
-
-```json
-[
-  {
-    "legajo": 10001,
-    "nombre": "Mora",
-    "apellido": "García",
-    "email": "m.garcia@facultad.edu.ar",
-    "fechaAlta": "2026-03-02",
-    "modificacion": "2026-03-02",
-    "isActive": true
-  },
-  {
-    "legajo": 10002,
-    "nombre": "Liam",
-    "apellido": "Rodríguez",
-    "email": "l.rodriguez@facultad.edu.ar",
-    "fechaAlta": "2026-03-02",
-    "modificacion": "2026-03-02",
-    "isActive": true
-  },
-  {
-    "legajo": 10003,
-    "nombre": "Julieta",
-    "apellido": "Martínez",
-    "email": "j.martinez@facultad.edu.ar",
-    "fechaAlta": "2026-03-03",
-    "modificacion": "2026-03-03",
-    "isActive": false
-  },
-  {
-    "legajo": 10004,
-    "nombre": "Mateo",
-    "apellido": "Pérez",
-    "email": "m.perez@facultad.edu.ar",
-    "fechaAlta": "2026-03-05",
-    "modificacion": "2026-03-05",
-    "isActive": true
-  },
-  {
-    "legajo": 10005,
-    "nombre": "Sofía",
-    "apellido": "López",
-    "email": "s.lopez@facultad.edu.ar",
-    "fechaAlta": "2026-03-10",
-    "modificacion": "2026-03-10",
-    "isActive": true
-  },
-  {
-    "legajo": 10006,
-    "nombre": "Lucas",
-    "apellido": "González",
-    "email": "l.gonzalez@facultad.edu.ar",
-    "fechaAlta": "2026-03-15",
-    "modificacion": "2026-03-15",
-    "isActive": true
-  },
-  {
-    "legajo": 10007,
-    "nombre": "Valentina",
-    "apellido": "Sánchez",
-    "email": "v.sanchez@facultad.edu.ar",
-    "fechaAlta": "2026-03-20",
-    "modificacion": "2026-03-20",
-    "isActive": false
-  },
-  {
-    "legajo": 10008,
-    "nombre": "Benjamín",
-    "apellido": "Romero",
-    "email": "b.romero@facultad.edu.ar",
-    "fechaAlta": "2026-03-22",
-    "modificacion": "2026-03-22",
-    "isActive": true
-  },
-  {
-    "legajo": 10009,
-    "nombre": "Martina",
-    "apellido": "Díaz",
-    "email": "m.diaz@facultad.edu.ar",
-    "fechaAlta": "2026-04-01",
-    "modificacion": "2026-04-01",
-    "isActive": true
-  },
-  {
-    "legajo": 10010,
-    "nombre": "Thiago",
-    "apellido": "Silva",
-    "email": "t.silva@facultad.edu.ar",
-    "fechaAlta": "2026-04-03",
-    "modificacion": "2026-04-03",
-    "isActive": true
-  },
-  {
-    "legajo": 10011,
-    "nombre": "Victoria",
-    "apellido": "Castro",
-    "email": "v.castro@facultad.edu.ar",
-    "fechaAlta": "2026-04-03",
-    "modificacion": "2026-04-03",
-    "isActive": false
-  },
-  {
-    "legajo": 10012,
-    "nombre": "Santino",
-    "apellido": "Sosa",
-    "email": "s.sosa@facultad.edu.ar",
-    "fechaAlta": "2026-04-06",
-    "modificacion": "2026-04-06",
-    "isActive": true
-  },
-  {
-    "legajo": 10013,
-    "nombre": "Delfina",
-    "apellido": "Ruiz",
-    "email": "d.ruiz@facultad.edu.ar",
-    "fechaAlta": "2026-04-12",
-    "modificacion": "2026-04-12",
-    "isActive": true
-  },
-  {
-    "legajo": 10014,
-    "nombre": "Camilo",
-    "apellido": "Torres",
-    "email": "c.torres@facultad.edu.ar",
-    "fechaAlta": "2026-04-18",
-    "modificacion": "2026-04-18",
-    "isActive": true
-  },
-  {
-    "legajo": 10015,
-    "nombre": "Elena",
-    "apellido": "Benítez",
-    "email": "e.benitez@facultad.edu.ar",
-    "fechaAlta": "2026-04-20",
-    "modificacion": "2026-04-20",
-    "isActive": false
-  },
-  {
-    "legajo": 10016,
-    "nombre": "Felipe",
-    "apellido": "Acosta",
-    "email": "f.acosta@facultad.edu.ar",
-    "fechaAlta": "2026-04-25",
-    "modificacion": "2026-04-25",
-    "isActive": true
-  },
-  {
-    "legajo": 10017,
-    "nombre": "Alma",
-    "apellido": "Flores",
-    "email": "a.flores@facultad.edu.ar",
-    "fechaAlta": "2026-05-02",
-    "modificacion": "2026-05-02",
-    "isActive": true
-  },
-  {
-    "legajo": 10018,
-    "nombre": "Facundo",
-    "apellido": "Morales",
-    "email": "f.morales@facultad.edu.ar",
-    "fechaAlta": "2026-05-04",
-    "modificacion": "2026-05-04",
-    "isActive": true
-  },
-  {
-    "legajo": 10019,
-    "nombre": "Isabella",
-    "apellido": "Ortiz",
-    "email": "i.ortiz@facultad.edu.ar",
-    "fechaAlta": "2026-05-05",
-    "modificacion": "2026-05-05",
-    "isActive": true
-  },
-  {
-    "legajo": 10020,
-    "nombre": "Joaquín",
-    "apellido": "Ramos",
-    "email": "j.ramos@facultad.edu.ar",
-    "fechaAlta": "2026-05-05",
-    "modificacion": "2026-05-05",
-    "isActive": false
-  },
-  {
-    "legajo": 10021,
-    "nombre": "Bautista",
-    "apellido": "Herrera",
-    "email": "b.herrera@facultad.edu.ar",
-    "fechaAlta": "2026-05-08",
-    "modificacion": "2026-05-08",
-    "isActive": true
-  },
-  {
-    "legajo": 10022,
-    "nombre": "Lola",
-    "apellido": "Medina",
-    "email": "l.medina@facultad.edu.ar",
-    "fechaAlta": "2026-05-10",
-    "modificacion": "2026-05-10",
-    "isActive": true
-  },
-  {
-    "legajo": 10023,
-    "nombre": "Juan Cruz",
-    "apellido": "Vega",
-    "email": "jc.vega@facultad.edu.ar",
-    "fechaAlta": "2026-05-11",
-    "modificacion": "2026-05-11",
-    "isActive": true
-  },
-  {
-    "legajo": 10024,
-    "nombre": "Catalina",
-    "apellido": "Blanco",
-    "email": "c.blanco@facultad.edu.ar",
-    "fechaAlta": "2026-05-12",
-    "modificacion": "2026-05-12",
-    "isActive": true
-  },
-  {
-    "legajo": 10025,
-    "nombre": "Tomás",
-    "apellido": "Méndez",
-    "email": "t.mendez@facultad.edu.ar",
-    "fechaAlta": "2026-05-14",
-    "modificacion": "2026-05-14",
-    "isActive": true
-  }
-]
-```
-
-#### Screenshoot
-
-Salida Exitosa (200):
-![Postman Get All](./data/assets/alumno.getall.png)
-
-Salida Erronea (500):
-![Postman Get All Server Error](./data/assets/alumno.getall.500.png)
-
-### Endpoint /notas
-
-#### Obtener todas las notas
-
-```bash
-curl --location 'http://127.0.0.1:3000/notas'
-```
-
-Salida Exitosa (200):
-
-```json
-[
-  {
-    "id": 1,
-    "legajo": 10001,
-    "idMateria": "MAT101",
-    "nota": 9,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 2,
-    "legajo": 10001,
-    "idMateria": "PROG1",
-    "nota": 8,
-    "fecha": "01-07-24"
-  },
-  {
-    "id": 3,
-    "legajo": 10002,
-    "idMateria": "MAT101",
-    "nota": 10,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 4,
-    "legajo": 10002,
-    "idMateria": "PROG1",
-    "nota": 8,
-    "fecha": "01-07-24"
-  },
-  {
-    "id": 5,
-    "legajo": 10003,
-    "idMateria": "MAT101",
-    "nota": 4,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 6,
-    "legajo": 10004,
-    "idMateria": "SIST1",
-    "nota": 7,
-    "fecha": "15-06-24"
-  },
-  {
-    "id": 7,
-    "legajo": 10005,
-    "idMateria": "LABO1",
-    "nota": 8,
-    "fecha": "20-06-24"
-  },
-  {
-    "id": 8,
-    "legajo": 10006,
-    "idMateria": "MAT101",
-    "nota": 6,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 9,
-    "legajo": 10007,
-    "idMateria": "ING1",
-    "nota": 5,
-    "fecha": "10-07-24"
-  },
-  {
-    "id": 10,
-    "legajo": 10008,
-    "idMateria": "PROG1",
-    "nota": 9,
-    "fecha": "01-07-24"
-  },
-  {
-    "id": 11,
-    "legajo": 10009,
-    "idMateria": "SIST1",
-    "nota": 8,
-    "fecha": "15-06-24"
-  },
-  {
-    "id": 12,
-    "legajo": 10010,
-    "idMateria": "MAT101",
-    "nota": 7,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 13,
-    "legajo": 10011,
-    "idMateria": "LABO1",
-    "nota": 2,
-    "fecha": "20-06-24"
-  },
-  {
-    "id": 14,
-    "legajo": 10012,
-    "idMateria": "ING1",
-    "nota": 9,
-    "fecha": "10-07-24"
-  },
-  {
-    "id": 15,
-    "legajo": 10013,
-    "idMateria": "PROG1",
-    "nota": 7,
-    "fecha": "01-07-24"
-  },
-  {
-    "id": 16,
-    "legajo": 10014,
-    "idMateria": "SIST1",
-    "nota": 6,
-    "fecha": "15-06-24"
-  },
-  {
-    "id": 17,
-    "legajo": 10015,
-    "idMateria": "MAT101",
-    "nota": 3,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 18,
-    "legajo": 10016,
-    "idMateria": "LABO1",
-    "nota": 10,
-    "fecha": "20-06-24"
-  },
-  {
-    "id": 19,
-    "legajo": 10017,
-    "idMateria": "ING1",
-    "nota": 8,
-    "fecha": "10-07-24"
-  },
-  {
-    "id": 20,
-    "legajo": 10018,
-    "idMateria": "PROG1",
-    "nota": 7,
-    "fecha": "01-07-24"
-  },
-  {
-    "id": 21,
-    "legajo": 10019,
-    "idMateria": "SIST1",
-    "nota": 9,
-    "fecha": "15-06-24"
-  },
-  {
-    "id": 22,
-    "legajo": 10020,
-    "idMateria": "MAT101",
-    "nota": 5,
-    "fecha": "03-04-24"
-  },
-  {
-    "id": 23,
-    "legajo": 10021,
-    "idMateria": "LABO1",
-    "nota": 8,
-    "fecha": "20-06-24"
-  },
-  {
-    "id": 24,
-    "legajo": 10022,
-    "idMateria": "ING1",
-    "nota": 8,
-    "fecha": "10-07-24"
-  },
-  {
-    "id": 25,
-    "legajo": 10023,
-    "idMateria": "PROG1",
-    "nota": 10,
-    "fecha": "01-07-24"
-  }
-]
-```
-
-Salida Erronea (500):
-
-```json
-{
-  "error": "No se puedieron obtener los datos de las Notas"
-}
-```
-
-#### Screenshoot
-
-![Get All Ok](./data/assets/notas.getall.png)
-![Get All Error](./data/assets/notas.getall.500.png)
-
-#### Obtener notas por legajo
-
-```bash
-curl --location 'http://127.0.0.1:3000/notas/10002'
-```
-
-Salida Exitosa (200):
-
-```json
-[
-  {
-    "id": 3,
-    "nota": 10,
-    "fecha": "03-04-24",
-    "legajo": 10002
-  },
-  {
-    "id": 4,
-    "nota": 8,
-    "fecha": "01-07-24",
-    "legajo": 10002
-  }
-]
-```
-
-Salida Erronea (404/500):
-{
-"error": "Legajo No encontrado"
-}
-
-#### Screenshoot
-
-![Get X Legajo 200](./data/assets/notas.getXLeg.png)
-![Get X Legajo 404](./data/assets/notas.getXLeg.404.png)
-![Get X Legajo 500](./data/assets/notas.getXLeg.500.png)
-
-#### Post Nota
-
-```bash
-curl --location 'http://127.0.0.1:3000/notas/' \
---header 'Content-Type: application/json' \
---data '{
-    "legajo": 1003,
-    "idMateria": "PROG1",
-    "nota": 10,
-    "fecha": "03-04-26"
-}'
-```
-
-Salida Exitosa (200):
-
-```json
-[
-        ...
-        ...
-
-    {
-        "id": 25,
-        "nota": 10,
-        "fecha": "01-07-24",
-        "legajo": 10023
-    },
-    {
-        "id": 26,
-        "nota": 10,
-        "fecha": "03-04-26",
-        "legajo": 1002
-    },
-    {
-        "id": 27,
-        "idMateria": "PROG1",
-        "nota": 10,
-        "fecha": "03-04-26",
-        "legajo": 1003
-    }
-]
-```
-
-Salida Erronea (400):
-
-```json
-{
-  "msg": "Datos Invalidos",
-  "errores": ["nota debe ser un número entre 0 y 10"]
-}
-```
-
-#### Screenshoot
-
-![201](./data/assets/notas.post.png)
-![400](./data/assets/notas.post.400.png)
-![500](./data/assets/nota.post.500.png)
-
-#### Endpoint /profesores
-
-#### Obtener todos los profesores
-
-```bash
-curl --location 'https://tp4-grupo6.onrender.com/profesores'
-```
-
-Salida Exitosa (200):
-![Postman Get All Profesores](./data/assets/profesor.get.200.png)
-
-#### Obtener profesor por DNI
-
-```bash
-curl --location 'https://tp4-grupo6.onrender.com/profesores/28456123'
-```
-
-Salida Exitosa (200):
-![Postman Get By DNI](./data/assets/profesor.getDni.200.png)
-
-Salida Errónea (404):
-![Postman Get By DNI Not Found](./data/assets/profesor.getDni.404.png)
-
-#### Crear profesor
-
-```bash
-curl --location 'https://tp4-grupo6.onrender.com/profesores' \
---data-raw '{...}'
-```
-
-Salida Exitosa (201):
-![Postman Post Profesor](./data/assets/profesor.post.201.png)
-
-Salida Errónea DNI duplicado (409):
-![Postman Post Conflict](./data/assets/profesor.post.409.png)
-
-Salida Errónea materia inexistente (400):
-![Postman Post Bad Request](./data/assets/profesor.post.materia.400.png)
