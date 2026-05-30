@@ -25,7 +25,7 @@ COPY --from=constructor --chown=usuario-grupo6:nodejs /app/package*.json ./
 COPY --chown=usuario-grupo6:nodejs data ./data
 
 RUN npm ci --omit=dev && \
-    npm cache clean --forcé
+    npm cache clean --force
 
 USER usuario-grupo6
 
