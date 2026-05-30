@@ -198,27 +198,48 @@ export class ProfesorController extends NumerosMagicos {
       }
 
       // Valido que las materias existan
-      const data = await fs.readFile('./data/extras/sys-materias.json', 'utf-8')
-      const materiasDisponibles = JSON.parse(data).map((materia: any) => materia.idMateria)
+      if (materias !== undefined) {
+          const data = await fs.readFile('./data/extras/sys-materias.json', 'utf-8')
+          const materiasDisponibles = JSON.parse(data).map((materia: any) => materia.idMateria)
 
-      const todasExisten = materias.every((materia: string) =>
-        materiasDisponibles.includes(materia)
-      )
-      // Si alguna materia no existe, devuelvo error
-      if (!todasExisten) {
-        return res
-          .status(this.HTTP_BAD_REQUEST)
-          .json({ error: 'Alguna de las materias ingresadas no existe' })
+          const todasExisten = materias.every((materia: string) =>
+            materiasDisponibles.includes(materia)
+          )
+          if (!todasExisten) {
+            return res
+              .status(this.HTTP_BAD_REQUEST)
+              .json({ error: 'Alguna de las materias ingresadas no existe' })
+          }
+        }
+
+      // Validaciones de tipo
+      if (nombre !== undefined && (typeof nombre !== 'string' || nombre.trim() === '')) {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'El nombre debe ser un texto válido' })
+      }
+      if (apellido !== undefined && (typeof apellido !== 'string' || apellido.trim() === '')) {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'El apellido debe ser un texto válido' })
+      }
+      if (email !== undefined && (typeof email !== 'string' || !email.includes('@'))) {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'El email debe ser un texto válido' })
+      }
+      if (cargo !== undefined && (typeof cargo !== 'string' || cargo.trim() === '')) {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'El cargo debe ser un texto válido' })
+      }
+      if (isActive !== undefined && typeof isActive !== 'boolean') {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'El estado debe ser verdadero o falso' })
+      }
+      if (materias !== undefined && !Array.isArray(materias)) {
+        return res.status(this.HTTP_BAD_REQUEST).json({ error: 'Las materias deben ser un array' })
       }
 
-      // Modifico atributos del profesor
+      // Modifico solo los campos que vinieron en el body
       const profesorModificado = profesores[profesorIndex]
-      profesorModificado.setNombre(nombre)
-      profesorModificado.setApellido(apellido)
-      profesorModificado.setEmail(email)
-      profesorModificado.setCargo(cargo)
-      profesorModificado.setIsActive(isActive)
-      profesorModificado.setMaterias(materias)
+      if (nombre) profesorModificado.setNombre(nombre)
+      if (apellido) profesorModificado.setApellido(apellido)
+      if (email) profesorModificado.setEmail(email)
+      if (cargo) profesorModificado.setCargo(cargo)
+      if (isActive !== undefined) profesorModificado.setIsActive(isActive)
+      if (materias !== undefined) profesorModificado.setMaterias(materias)
       profesorModificado.setModificacion(new Date().toISOString().split('T')[0])
       // dni y fechaAlta no se modifican
 
