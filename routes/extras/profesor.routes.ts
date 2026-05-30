@@ -8,6 +8,8 @@ const profesorController = new ProfesorController()
 rutas.get('/', profesorController.getProfesores)
 rutas.get('/:dni', profesorController.getProfesorByDni)
 rutas.post('/', validarProfesor, profesorController.postProfesor)
-rutas.patch('/:dni', validarProfesor, profesorController.patchProfesor)
+rutas.put('/:dni', validarProfesor, profesorController.putProfesor)
+rutas.patch('/:dni', profesorController.patchProfesor)
+rutas.delete('/:dni', profesorController.deleteProfesor)
 
 export default rutas

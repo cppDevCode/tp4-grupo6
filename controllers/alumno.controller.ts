@@ -1,4 +1,5 @@
 import { AlumnoModel } from '../models/alumno.model'
+import {NotaModel} from '../models/extras/nota.model'
 import { NumerosMagicos } from '../util/numeros-magicos'
 import { Request, Response } from 'express'
 import fs from 'fs/promises'
@@ -54,16 +55,14 @@ export class AlumnoController extends NumerosMagicos{
   public patchAlumno = async (req: Request, res: Response) => {
     const { legajo } = req.params
     try {
-      const { nombre, apellido, email, modificacion, isActive } = req.body
+      const { nombre, apellido, email, fechaAlta, modificacion, isActive } = req.body
       const data = await fs.readFile('./data/alumnos.json', 'utf8') // espera a leer
       const alumnos: any[] = JSON.parse(data)
       const alumnoIndex = alumnos.findIndex((alumno) => alumno.legajo === Number(legajo)) //tipo numero, por el indice devolvido
       if (alumnoIndex === -1) {
         return res.status(this.HTTP_NOT_FOUND).json({ msg: `Alumno (Legajo: ${legajo})  no encontrado` })
       }
-
       const alumnoEncontrado = alumnos[alumnoIndex]
-
       const alumnoModificado = new AlumnoModel(
         alumnoEncontrado.legajo,
         alumnoEncontrado.nombre,
@@ -74,6 +73,9 @@ export class AlumnoController extends NumerosMagicos{
         alumnoEncontrado.isActive
       )
 
+      if (legajo) {
+        alumnoModificado.setLegajo(Number(legajo))
+      }
       if (nombre) {
         alumnoModificado.setNombre(nombre)
       }
@@ -83,10 +85,13 @@ export class AlumnoController extends NumerosMagicos{
       if (email) {
         alumnoModificado.setEmail(email)
       }
+      if (fechaAlta) {
+        alumnoModificado.setFechaAlta(new Date(fechaAlta))
+      }
+      alumnoModificado.setFechaModificacion(new Date()) //fecha actual
       if (isActive !== undefined) {
         alumnoModificado.setActivo(isActive)
       }
-      alumnoModificado.setFechaModificacion(new Date()) //fecha actual
 
       const alumnoFinal = alumnoModificado.getAllAttributes()
       alumnos[alumnoIndex] = alumnoFinal //reemplaza el alumno que tiene ese indice
@@ -189,5 +194,35 @@ export class AlumnoController extends NumerosMagicos{
     }
   }
 
-}
+  //Mati
+    public obtenerNotasLegajo = async (req: Request, res: Response): Promise<Response> => {
+      let codigo: number
+      let salida: object
+      try{
+        const dataNotas:string= await fs.readFile('./data/extras/sys-notas.json', 'utf-8')
+        const dataAlumnos: string=await fs.readFile('./data/alumnos.json', 'utf-8')
+        const notas: NotaModel []=JSON.parse(dataNotas)
+        const alumnos: AlumnoModel[] = JSON.parse(dataAlumnos)
+        const legajo = Number (req.params.legajo)
+        const alumno=alumnos.find((a: any)=> a.legajo === legajo)
+        const notasDeAlumno = notas.filter((a:any)=> a.legajo === legajo)
 
+        if (!alumno) {
+          codigo = this.HTTP_NOT_FOUND
+          salida = {error: 'No existe el alumno con legajo ${legajo}'}
+        }else{
+          codigo=this.HTTP_OK
+          salida=alumno
+          if (notasDeAlumno.length===0){
+            codigo=this.HTTP_NOT_FOUND
+            salida={msg: 'El alumno no posee notas'}
+          } else {
+            codigo=this.HTTP_OK
+            salida={ alumno, notas: notasDeAlumno }}
+          }
+        } catch (error) {
+          codigo =this.HTTP_SERVER_ERROR
+          salida= {error: 'No se pudieron encontrar datos del alumno'}
+        } return res.status(codigo).json(salida)
+      }
+    }
