@@ -2,8 +2,8 @@
 
 Bienvenid@ al repositorio del Trabajo Práctico N°4 para la asignatura de Programación 3. En este proyecto el Grupo 6 ha desarrollado una API para integrarla a futuro con un front a desarrollar en React.
 
-Link render: https://tp4-grupo6.onrender.com/ 
-Documentación Postman: https://documenter.getpostman.com/view/27247513/2sBXwntXXd 
+Link render: https://tp4-grupo6.onrender.com/  
+Documentación Postman: https://documenter.getpostman.com/view/31832323/2sBXwntXXh
 
 ## 🎯 Objetivos del TP
 
@@ -55,7 +55,7 @@ Respuestas HTTP: 200, 500
 Obtener la nota a partir del numero de legajo de un alumno  
 Respuestas HTTP: 200, 404, 500
 
-_Middleware_  
+_Middleware_
 
 Crear MiddleWare para endpoint notas
 
@@ -89,18 +89,17 @@ Recibir el legajo por req.params y los campos a modificar por req.body.
 Verificar que el alumno exista, devolver 404 si no
 A diferencia del PUT del Alumno 4, solo actualiza los campos que llegan en el body — los que no vienen se mantienen con su valor original
 No permitir modificar el número de legajo aunque venga en el body, igual que el PUT
-Guardar el JSON actualizado  
+Guardar el JSON actualizado
 
 Respuestas HTTP: 200, 400, 404, 500
 
-**GET /alumnos/:id/notas**  
+**GET /alumnos/:id/notas**
 
-Devuelve el alumno por legajo con sus notas correspondientes 
+Devuelve el alumno por legajo con sus notas correspondientes
 
-_Middleware_  
+_Middleware_
 
 Crear middleware para endpoint alumnos
-
 
 _Postman_
 
@@ -111,7 +110,7 @@ Comparar en la descripción la diferencia con el PUT para que quede documentado 
 
 #### Julián Riedinger
 
-**PUT /alumnos/:id Backend**  
+**PUT /alumnos/:id Backend**
 
 Recibir el legajo por req.params y los datos a modificar por req.body
 Verificar que el alumno exista, devolver 404 si no
@@ -119,43 +118,43 @@ No permitir modificar el número de legajo aunque venga en el body
 Actualizar los campos y guardar el JSON
 Respuestas HTTP: 200, 404, 500
 
-_Postman_  
+_Postman_
 
 Documentar con ejemplo de modificación exitosa (200) e id inexistente (404)
 
 ### Profesores (Extra)
-**profesor.model**  
+
+**profesor.model**
 
 Definir la clase ProfesorModel en profesor.model.ts heredando de PersonaModel con los atributos dni, cargo, isActive, materias, fechaAlta y modificacion
 
-_Middleware de profesores_  
+_Middleware de profesores_
 
 Validar la estructura y formato de los datos recibidos en el body antes de que lleguen al controlador. La validación cruzada de ids de materias contra sys-materias.json se delega al controlador por requerir una operación asíncrona
 
-**GET /profesores**  
+**GET /profesores**
 
 Leer sys-profesores.json y devolver el array completo de profesores mapeados a instancias de ProfesorModel
 Respuestas HTTP: 200, 404, 500
 
-**GET /profesores/:dni**  
+**GET /profesores/:dni**
 
 Buscar un profesor por DNI recibido por req.params
 Respuestas HTTP: 200, 404, 500
 
-**POST /profesores**  
+**POST /profesores**
 
 Recibir los datos del nuevo profesor por req.body, validar que el DNI no esté duplicado y que todos los ids de materias existan en sys-materias.json antes de persistir
 Respuestas HTTP: 201, 400, 409, 500
 
-**DELETE /profesores/:dni**  
+**DELETE /profesores/:dni**
 
 Eliminar un profesor por DNI recibido por req.params y persistir el JSON actualizado
 Respuestas HTTP: 200, 404, 500
 
-_Postman_  
+_Postman_
 
 Documentar GET /profesores, GET /profesores/:dni, POST /profesores y DELETE /profesores/:dni con ejemplos de respuesta exitosa y casos de error
-
 
 #### Marianela Belardinelli
 
@@ -174,7 +173,7 @@ Documentar con ejemplo de eliminación exitosa (200) e id inexistente (404)
 **PATCH /profesores/:dni**  
 _Backend_
 
-Recibir el DNI por req.params y los datos a modificar por req.body   
+Recibir el DNI por req.params y los datos a modificar por req.body  
 Verificar que el profesor exista, devolver 404 si no  
 Verificar que todas las materias enviadas existan en sys-materias.json (400 si no)  
 No permitir modificar el DNI ni la fechaAlta aunque vengan en el body  
@@ -202,7 +201,7 @@ Documentar con ejemplo de creación exitosa (201), datos inválidos (400), legaj
 
 #### Julieta Dabús
 
-**GET /alumnos/:id**  
+**GET /alumnos/:id**
 
 _Backend_
 
@@ -214,7 +213,7 @@ _Postman_
 
 Documentar con ejemplo de id existente (200), id inexistente (404) y error de servidor (500)
 
-**PUT /profesores**  
+**PUT /profesores**
 
 Recibir el legajo por req.params y los datos a modificar por req.body
 Verificar que el profesor exista, devolver 404 si no
@@ -616,16 +615,18 @@ La clase ProfesorModel hereda de PersonaModel
   }
 ]
 ```
+
 2. getAlumnoByID
-   Busca y obtiene un alumno específico desde el archivo JSON a partir de su 
+   Busca y obtiene un alumno específico desde el archivo JSON a partir de su
    legajo recibido como parámetro en la URL. Envía la respuesta HTTP correspondiente.
 
    Parámetros: legajo (number) — recibido por req.params
 
-   Retorna: Envía una respuesta JSON con el objeto del alumno encontrado, 
+   Retorna: Envía una respuesta JSON con el objeto del alumno encontrado,
    o un mensaje de error según el caso.
 
 Ejemplo respuesta 200:
+
 ```json
 {
   "legajo": 10001,
@@ -637,18 +638,23 @@ Ejemplo respuesta 200:
   "isActive": true
 }
 ```
+
 Ejemplo respuesta 404:
+
 ```json
 {
   "error": "No existe el alumno con legajo 99999"
 }
 ```
+
 Ejemplo respuesta 500:
+
 ```json
 {
   "error": "No se pudo obtener el detalle del alumno"
 }
 ```
+
 3. putAlumno
    Edita todos los atributos de un alumno con legajo recibido por parametros en la Request:
 
@@ -681,6 +687,7 @@ El metodo PUT se encarga de actualizar de forma total al alumno, mientras que el
    o un mensaje de error según el caso.
 
 Ejemplo respuesta 200:
+
 ```json
 {
   "msg": "Alumno con legajo 10001 eliminado correctamente",
@@ -695,13 +702,17 @@ Ejemplo respuesta 200:
   }
 }
 ```
+
 Ejemplo respuesta 404:
+
 ```json
 {
   "error": "No se encontró ningún alumno con el legajo 99999"
 }
 ```
+
 Ejemplo respuesta 500:
+
 ```json
 {
   "error": "Error interno del servidor. No se pudo eliminar el alumno con legajo 10001"
@@ -856,6 +867,7 @@ Retorna **201** con el profesor creado en caso de éxito.
    o un mensaje de error según el caso.
 
 Ejemplo respuesta 200:
+
 ```json
 {
   "msg": "Profesor con DNI 28456123 modificado correctamente",
@@ -872,23 +884,28 @@ Ejemplo respuesta 200:
   }
 }
 ```
+
 Ejemplo respuesta 400 — datos inválidos (middleware):
+
 ```json
 {
   "msg": "Datos invalidos",
   "error": ["Ingrese un nombre valido"]
 }
 ```
+
 Ejemplo respuesta 400 — materia inexistente (controller):
+
 ```json
 {
   "error": "Alguna de las materias ingresadas no existe"
 }
 ```
+
 Ejemplo respuesta 404:
+
 ```json
 {
   "error": "No se encontró ningún profesor con DNI 99999999"
 }
 ```
-
